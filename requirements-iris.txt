@@ -1,0 +1,11 @@
+# Python packages used by dataloadschema.py (tested with Python 3.10).
+pandas==2.1.3
+mlflow==3.14.0
+scikit-learn==1.3.2
+joblib==1.4.2
+
+# Keep NumPy compatible with the pandas and scikit-learn versions above.
+numpy<2
+
+# DVC is already installed separately through Homebrew on this machine.
+# On another machine, also install DVC: pip install dvc

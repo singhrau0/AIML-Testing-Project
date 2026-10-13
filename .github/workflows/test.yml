@@ -1,0 +1,32 @@
+name: Loan application checks
+on: [push, pull_request]
+jobs:
+  web:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+      - run: pip install -r requirements-web-dev.txt
+      - run: python -m pytest tests/test_web.py -q
+      - run: node --check static/js/script.js
+  pipeline:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+      - run: pip install -r requirements-dev.txt
+      - name: Check pipeline when training data is available
+        shell: bash
+        run: |
+          if [ -f loan_train.csv ]; then
+            python -m pytest tests/test_pipeline.py -q
+          else
+            echo 'Training dataset is local-only; pipeline tests require restoring it from your authorized dataset store.'
+            python -m compileall -q loan_pipeline runmain.py predict.py
+          fi

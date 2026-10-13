@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Explore a loan approval estimate with your locally trained machine learning model.">
+  <title>Clario — Loan Intelligence</title>
+  <link rel="icon" href="{{ url_for('static', filename='assets/favicon.svg') }}" type="image/svg+xml">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
+</head>
+<body>
+  <div class="ambient ambient-one" aria-hidden="true"></div><div class="ambient ambient-two" aria-hidden="true"></div>
+  <aside class="sidebar">
+    <a class="brand" href="/" aria-label="Clario home"><span class="brand-mark" aria-hidden="true">c<span>·</span></span>clario<span class="brand-dot">.</span></a>
+    <div class="workspace"><span class="workspace-icon">L</span><div>Loan Intelligence<small>Personal workspace</small></div><span class="workspace-arrow">⌄</span></div>
+    <p class="nav-label">WORKSPACE</p>
+    <nav aria-label="Main navigation">
+      <a href="#application" class="nav-item active"><span aria-hidden="true">▦</span> Loan estimator <span class="nav-indicator"></span></a>
+      <button class="nav-item" data-dialog="method-dialog"><span aria-hidden="true">◈</span> How it works <span class="nav-arrow">↗</span></button>
+      <button class="nav-item" data-dialog="model-dialog"><span aria-hidden="true">⌘</span> Model details <span class="nav-arrow">↗</span></button>
+    </nav>
+    <div class="sidebar-bottom"><div class="privacy-icon" aria-hidden="true">◇</div><strong>Your details stay local.</strong><p>No account. No database.<br>Just an estimate, on your machine.</p><span class="local-badge"><i></i> LOCAL WORKSPACE</span></div>
+    <div class="sidebar-footer"><span class="avatar">YOU</span><div>Personal session<small>Private by design</small></div><span aria-hidden="true">⌁</span></div>
+  </aside>
+  <div class="main-shell">
+    <header class="topbar"><div class="breadcrumb">Workspace <span>/</span> <strong>Loan estimator</strong></div><div class="topbar-right"><span class="status-pill" id="model-status"><i></i> Checking model</span><span class="version">V 1.0</span></div></header>
+    <main>
+      <section class="page-heading"><div><div class="eyebrow"><span></span> A LITTLE CLARITY. A BETTER NEXT STEP.</div><h1>Your next chapter,<br><span>with more confidence.</span></h1><p>Understand your loan approval outlook with an AI-powered estimate.<br class="desktop-break"> A few details. A clearer picture.</p></div><div class="heading-art" aria-hidden="true"><div class="orbit orbit-one"></div><div class="orbit orbit-two"></div><div class="art-core">↗</div><span class="art-spark spark-one">✦</span><span class="art-spark spark-two">+</span></div></section>
+      <div class="content-grid">
+        <section class="application-card glass" id="application" aria-labelledby="form-title">
+          <div class="card-heading"><div><span class="section-kicker">LET’S START WITH YOU</span><h2 id="form-title">Build your loan profile</h2></div><span class="step-count" id="step-count">STEP 01 / 03</span></div>
+          <ol class="stepper" aria-label="Application progress"><li class="current" aria-current="step"><span>01</span>Finances</li><li><span>02</span>Profile</li><li><span>03</span>Credit</li></ol>
+          <form id="loan-form" novalidate>
+            <fieldset class="form-step" data-step="0"><legend>Your financial picture</legend><p class="step-description">Tell us about your income and the loan you have in mind.</p>
+              <div class="unit-note"><span aria-hidden="true">ⓘ</span><p>Use the same units as <code>loan_train.csv</code>. The source does not document currency or income period; no currency conversion is applied.</p></div>
+              <div class="fields-grid">
+                <div class="field"><label for="ApplicantIncome">Applicant income <span>*</span></label><div class="input-shell"><span class="input-icon" aria-hidden="true">↗</span><input id="ApplicantIncome" name="ApplicantIncome" type="number" min="0" max="1000000000000" step="any" placeholder="e.g. 5,000" required aria-describedby="ApplicantIncome-error"></div><small class="field-hint">Your income, in dataset units</small><span class="field-error" id="ApplicantIncome-error"></span></div>
+                <div class="field"><label for="CoapplicantIncome">Co-applicant income <span>*</span></label><div class="input-shell"><span class="input-icon" aria-hidden="true">↗</span><input id="CoapplicantIncome" name="CoapplicantIncome" type="number" min="0" max="1000000000000" step="any" placeholder="e.g. 0" required aria-describedby="CoapplicantIncome-error"></div><small class="field-hint">Enter 0 if you are applying alone</small><span class="field-error" id="CoapplicantIncome-error"></span></div>
+                <div class="field"><label for="LoanAmount">Loan amount <span>*</span></label><div class="input-shell"><span class="input-icon" aria-hidden="true">◈</span><input id="LoanAmount" name="LoanAmount" type="number" min="0.000001" max="1000000000000" step="any" placeholder="e.g. 120" required aria-describedby="LoanAmount-error"></div><small class="field-hint">Use the LoanAmount column’s scale</small><span class="field-error" id="LoanAmount-error"></span></div>
+                <div class="field"><label for="Loan_Amount_Term">Loan term <span>*</span></label><div class="input-shell"><span class="input-icon" aria-hidden="true">◷</span><input id="Loan_Amount_Term" name="Loan_Amount_Term" type="number" min="1" max="1000000000000" step="1" placeholder="e.g. 360" required aria-describedby="Loan_Amount_Term-error"><span class="input-suffix">months</span></div><small class="field-hint">Your planned repayment period</small><span class="field-error" id="Loan_Amount_Term-error"></span></div>
+              </div>
+            </fieldset>
+            <fieldset class="form-step" data-step="1" hidden><legend>A little about your profile</legend><p class="step-description">Only the details used by your existing model.</p><div class="fields-grid">
+              <div class="field"><label for="Dependents">Dependents <span>*</span></label><div class="input-shell"><select id="Dependents" name="Dependents" required aria-describedby="Dependents-error"><option value="">Select dependents</option><option value="0">No dependents</option><option value="1">1 dependent</option><option value="2">2 dependents</option><option value="3+">3 or more dependents</option></select></div><span class="field-error" id="Dependents-error"></span></div>
+              <div class="field"><label for="Education">Education <span>*</span></label><div class="input-shell"><select id="Education" name="Education" required aria-describedby="Education-error"><option value="">Select education</option><option>Graduate</option><option>Not Graduate</option></select></div><span class="field-error" id="Education-error"></span></div>
+              <div class="field"><label for="Self_Employed">Self-employed <span>*</span></label><div class="input-shell"><select id="Self_Employed" name="Self_Employed" required aria-describedby="Self_Employed-error"><option value="">Select employment status</option><option value="No">No</option><option value="Yes">Yes</option></select></div><span class="field-error" id="Self_Employed-error"></span></div>
+              <div class="field"><label for="Property_Area">Property area <span>*</span></label><div class="input-shell"><select id="Property_Area" name="Property_Area" required aria-describedby="Property_Area-error"><option value="">Select property area</option><option>Urban</option><option>Semiurban</option><option>Rural</option></select></div><span class="field-error" id="Property_Area-error"></span></div>
+            </div><div class="quiet-note"><span aria-hidden="true">◇</span> Gender and marital status are not inputs to this model.</div></fieldset>
+            <fieldset class="form-step" data-step="2" hidden><legend>One final detail</legend><p class="step-description">Select the credit history flag recorded for your application.</p>
+              <div class="field"><label for="Credit_History">Credit history <span>*</span></label><div class="input-shell"><select id="Credit_History" name="Credit_History" required aria-describedby="credit-help Credit_History-error"><option value="">Select credit history</option><option value="1">1 — Positive credit history flag</option><option value="0">0 — Negative credit history flag</option></select></div><small class="field-hint" id="credit-help">This is the dataset’s binary flag, not a credit score. Use verified information.</small><span class="field-error" id="Credit_History-error"></span></div>
+              <div class="review-box"><span class="section-kicker">READY WHEN YOU ARE</span><h3>A model estimate, on your terms.</h3><p>We’ll send these nine inputs to your local model. Your application is not submitted to a lender or saved in a database.</p></div>
+            </fieldset>
+            <div id="form-error" class="error-banner" role="alert" hidden></div>
+            <div class="form-actions"><span class="form-security" id="form-security"><span aria-hidden="true">◇</span> No impact on your credit score</span><button type="button" class="button button-ghost" id="back-button" hidden>← Back</button><button type="button" class="button button-primary" id="next-button">Continue <span aria-hidden="true">→</span></button><button type="submit" class="button button-primary" id="predict-button" hidden>Get my estimate <span aria-hidden="true">↗</span></button></div>
+          </form>
+        </section>
+        <aside class="insight-column">
+          <section class="outlook-card glass" aria-labelledby="outlook-title" aria-live="polite" aria-busy="false" id="outlook-card">
+            <div class="outlook-header"><span class="section-kicker">YOUR LOAN OUTLOOK</span><span class="live-tag">AI ESTIMATE</span></div>
+            <div id="empty-state"><div class="radar" aria-hidden="true"><div class="radar-ring ring-outer"></div><div class="radar-ring ring-inner"></div><div class="radar-center">✦</div><span class="radar-dot"></span></div><h2 id="outlook-title">A clearer picture awaits.</h2><p>Complete your profile to explore<br>your approval outlook.</p><div class="empty-divider"></div><div class="outlook-feature"><span>◈</span><div><strong>Built on your trained model</strong><small>Real inputs. A real prediction.</small></div></div><div class="outlook-feature"><span>◎</span><div><strong>Probability, with perspective</strong><small>An estimate, never a guarantee.</small></div></div></div>
+            <div id="loading-state" hidden><div class="loader-orbit" aria-hidden="true"></div><h2>Connecting the dots.</h2><p>Your model is evaluating your profile.</p><span class="loading-label">PROCESSING YOUR ESTIMATE</span></div>
+            <div id="result-state" hidden tabindex="-1"><div class="result-icon" id="result-icon" aria-hidden="true">✓</div><span class="result-caption">YOUR MODEL’S ESTIMATE</span><h2 id="result-title"></h2><div class="probability-section" id="probability-section"><div class="probability-value"><strong id="probability-value">0%</strong><span>estimated approval<br>probability</span></div><progress id="probability-bar" max="100" value="0" aria-label="Estimated approval probability"></progress><div class="scale-labels"><span>0%</span><span>100%</span></div></div><p class="result-note" id="result-note"></p><dl class="result-summary" id="result-summary"></dl><button class="button button-ghost reset-button" id="reset-button" type="button">Start a new estimate <span aria-hidden="true">↻</span></button></div>
+          </section>
+          <div class="disclaimer"><span aria-hidden="true">ⓘ</span><p>AI-generated estimate, not an official lending decision. This model learns historical approvals; it does not assess repayment ability.</p></div>
+        </aside>
+      </div>
+      <section class="trust-strip" aria-label="Application principles"><div><span aria-hidden="true">⌘</span><p><strong>Machine learning, thoughtfully applied</strong><small>Your existing Random Forest model, unchanged.</small></p></div><div><span aria-hidden="true">◇</span><p><strong>Privacy starts here</strong><small>Inputs processed locally. No application history stored.</small></p></div><button data-dialog="method-dialog" class="text-button">Behind the estimate <span aria-hidden="true">↗</span></button></section>
+      <footer class="page-footer"><span>© Clario · Loan Intelligence</span><span>Designed for clarity. Built for exploration.</span></footer>
+    </main>
+  </div>
+  <dialog id="method-dialog"><div class="dialog-header"><span class="section-kicker">BEHIND THE ESTIMATE</span><button class="close-dialog" aria-label="Close dialog">×</button></div><h2>A clear path from inputs to insight.</h2><ol class="method-list"><li><strong>Share your profile</strong><p>Nine fields match the saved model’s exact inputs. Currency and income units must match the training dataset.</p></li><li><strong>Let the pipeline work</strong><p>The saved pipeline handles imputation, scaling and encoding before the Random Forest estimates the historical approval label.</p></li><li><strong>Understand your outlook</strong><p>A probability of 50% or above maps to “Loan Approval Likely.” Probabilities are model estimates and have not been independently calibrated.</p></li></ol><p class="dialog-note">This local tool does not contact credit bureaus or lenders. It is intended for exploration, not real lending decisions.</p></dialog>
+  <dialog id="model-dialog"><div class="dialog-header"><span class="section-kicker">MODEL DETAILS</span><button class="close-dialog" aria-label="Close dialog">×</button></div><h2>Your model. No substitutions.</h2><dl class="model-details"><dt>Estimator</dt><dd>Random Forest classifier</dd><dt>Inputs</dt><dd>9 verified features</dd><dt>Labels</dt><dd>Y (approval) · N (non-approval)</dd><dt>Decision threshold</dt><dd>0.50 approval probability</dd><dt>Status</dt><dd>Local candidate · not production approved</dd></dl><p class="dialog-note">Preprocessing is bundled with the model. Gender, marital status and Loan_ID are excluded from prediction. Proxy bias may remain. Data provenance and future lending performance have not been established.</p></dialog>
+</body>
+</html>

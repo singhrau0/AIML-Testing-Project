@@ -1,0 +1,36 @@
+{
+  "model_name": "random_forest",
+  "status": "candidate",
+  "quality_gate_passed": true,
+  "checks": {
+    "roc_auc": true,
+    "balanced_accuracy": true,
+    "beats_baseline_auc": true
+  },
+  "features": [
+    "ApplicantIncome",
+    "CoapplicantIncome",
+    "LoanAmount",
+    "Loan_Amount_Term",
+    "Credit_History",
+    "Dependents",
+    "Education",
+    "Self_Employed",
+    "Property_Area"
+  ],
+  "threshold": 0.5,
+  "labels": {
+    "0": "N",
+    "1": "Y"
+  },
+  "model_sha256": "7ab98b95348ad00dd07bb07bf1001b6693e5bb7660c9ec507533a2989f2e255e",
+  "config": {
+    "seed": 42,
+    "test_size": 0.2,
+    "cv_folds": 5,
+    "min_roc_auc": 0.7,
+    "min_balanced_accuracy": 0.6,
+    "threshold": 0.5
+  },
+  "production_approved": false
+}

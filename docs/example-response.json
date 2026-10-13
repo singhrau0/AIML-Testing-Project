@@ -1,0 +1,12 @@
+{
+  "ok": true,
+  "prediction": {
+    "approval_probability": 0.7898176588668617,
+    "decision": "approved",
+    "disclaimer": "AI-generated estimate, not an official lending decision. Model probabilities are not a guarantee of approval.",
+    "label": "Y",
+    "model": "Random Forest",
+    "threshold": 0.5,
+    "title": "Loan Approval Likely"
+  }
+}

@@ -1,0 +1,36 @@
+# Environments and secrets
+venv/
+.venv/
+.venv-web/
+.env
+.env.*
+!.env.example
+# Python and test caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+.ipynb_checkpoints/
+.cache/
+# Machine/editor state
+.DS_Store
+.idea/
+.vscode/
+*.log
+*.tmp
+*.temp
+*.swp
+*.bak
+# Local pipeline runs and training data (deployable model/ is intentionally tracked)
+artifacts/
+predictions/
+loan_train.csv
+Iris.csv
+models/
+model_test_metrics.json
+.dvc/cache/
+.dvc/tmp/
+# Browser QA output
+playwright-report/
+test-results/
